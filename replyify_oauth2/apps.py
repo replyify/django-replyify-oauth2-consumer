@@ -7,8 +7,10 @@
 #
 
 from __future__ import unicode_literals
-from django.apps import AppConfig
+from django import VERSION as DJANGO_VERSION
 
+if DJANGO_VERSION >= (1, 7):
+    from django.apps import AppConfig
 
-class ReplyifyOAuth2Config(AppConfig):
-    name = 'replyify_oauth2'
+    class ReplyifyOAuth2Config(AppConfig):
+        name = 'replyify_oauth2'
