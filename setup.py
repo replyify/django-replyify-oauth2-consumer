@@ -21,7 +21,7 @@ def version():
         return v.read()
 
 setup(
-    name='replyify-oauth2',
+    name='django-replyify-oauth2',
     version=version(),
     description='Replyify OAuth2 consumer for Django.',
     author='Replyify',
