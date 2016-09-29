@@ -6,10 +6,8 @@
 # file 'LICENSE.md', which is part of this source code package.
 #
 
-import os
 from datetime import timedelta
 
-import redis
 import requests
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -33,9 +31,7 @@ def authorize(request=None):
     response_type = 'code'
 
     state = get_random_string(20, "abcdefghijklmnopqrstuvwxyz0123456789")
-    r = _get_redis_connection()
-    if r is not None:
-        r.set(state, uid)
+    request.session['state'] = {state: uid}
 
     args = [
         "client_id={0}".format(client_id),
@@ -78,7 +74,7 @@ def refresh(request=None):
         }
 
         url = _settings.REPLYIFY_TOKEN_URL
-        r =requests.post(url=url, data=data)
+        r = requests.post(url=url, data=data)
         data = r.json()
 
         creds = _store_credentials(uid=uid, data=data)
@@ -96,31 +92,18 @@ def _get_uid(request=None):
     return uid
 
 
-def _get_redis_connection(host=None, port=None, passwd=None):
-    if not (host and port):
-        redis_url = os.getenv('REDIS_URL', 'redis://localhost:6379')
-        tokenized = redis_url.split(':')
-        host = tokenized[-2].lstrip('//')
-        port = tokenized[-1]
-    try:
-        r = redis.Redis(
-            host=host,
-            port=port,
-            password=passwd
-        )
-        return r
-    except:
-        return None
-
-
 def _check_state(request=None):
     uid = _get_uid(request)
+    msg = "Something fishy is happening. Abort ..."
+
+    if 'state' not in request.session:
+        raise Exception(msg)
     state = request.GET['state']
-    r = _get_redis_connection()
-    if r is not None:
-        from_redis = r.get(state)
-        if from_redis != uid:
-            raise Exception("Something fishy is happening. Abort ...")
+    from_session = request.session['state'][state]
+    if from_session != uid:
+        raise Exception(msg)
+
+    request.session.pop('state')
     return uid
 
 
