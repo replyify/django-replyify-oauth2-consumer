@@ -7,6 +7,6 @@
 #
 
 from django.contrib import admin
-from .models import ReplyifyOAuthCredentials
+from .models import Credentials
 
-admin.site.register(ReplyifyOAuthCredentials)
+admin.site.register(Credentials)
