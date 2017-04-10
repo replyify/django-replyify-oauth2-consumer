@@ -27,10 +27,21 @@ Register Your Application with Replyify
 Configure the django-replyify-oauth2 module
 -------------------------------------------
 
-From your previously configured app, found at https://app.replyify.com/oauth2/applications:
-* _settings.REPLYIFY_CLIENT_ID
-* _settings.REPLYIFY_CLIENT_SECRET
-* _settings.REPLYIFY_REDIRECT_URI
+From your previously configured app, found at https://app.replyify.com/oauth2/applications add the following to your Django settings:
+* REPLYIFY_CLIENT_ID
+* REPLYIFY_CLIENT_SECRET
+* REPLYIFY_REDIRECT_URI
+* REPLYIFY_USER_ID_FIELD
+
+And add the following to your `urls.py`
+
+	urlpatterns = patterns(
+    	...
+    	url(r'^replyify/', include('replyify_oauth2.urls', namespace='replyify')),
+    	...
+    )
+
+
 
 
 Using the Replyify API
