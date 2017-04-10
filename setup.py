@@ -16,17 +16,22 @@ except ImportError:
 del os.link
 
 
-def version():
-    with open(os.path.abspath(__file__).replace('setup.py', 'VERSION'), 'r') as v:
-        return v.read()
+with open(os.path.join(os.path.dirname(__file__), 'VERSION'), 'r') as v:
+    VERSION = v.read()
+
+
+with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
+    README = readme.read()
+
 
 setup(
     name='django-replyify-oauth2',
-    version=version(),
-    description='Replyify OAuth2 consumer for Django.',
+    version=VERSION,
+    description='Replyify OAuth2 consumer for Django',
+    long_description=README,
     author='Replyify',
     author_email='team@replyify.com',
-    url='http://github.com/replyify/django-replyify-oauth2-consumer',
+    url='http://replyify.com',
     keywords=[
         'replyify',
         'oauth2',
@@ -42,5 +47,17 @@ setup(
     ],
     scripts=[],
     include_package_data=True,
-    zip_safe=False
+    zip_safe=False,
+    classifiers=[
+        'Environment :: Web Environment',
+        'Framework :: Django',
+        'Framework :: Django :: 1.6',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Topic :: Internet :: WWW/HTTP',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+    ],
 )
