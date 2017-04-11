@@ -14,3 +14,5 @@ if DJANGO_VERSION >= (1, 7):
 
     class ReplyifyOAuth2Config(AppConfig):
         name = 'replyify_oauth2'
+        verbose_name = 'Replyify OAuth2'
+        label = 'replyify_oauth2'

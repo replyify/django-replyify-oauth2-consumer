@@ -41,6 +41,10 @@ And add the following to your `urls.py`
     	...
     )
 
+In your templates you can initiate the OAuth2 workflow like this:
+
+	<a href="{% url 'replyify:authorize' %}">Connect to Replyify</a>
+
 
 
 

@@ -5,17 +5,13 @@
 # This file is subject to the terms and conditions defined in
 # file 'LICENSE.md', which is part of this source code package.
 #
-
-try:
-    from . import settings
-except ImportError:
-    import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from .models import Credentials
+from . import settings
 from datetime import timedelta
 import requests
 
@@ -51,7 +47,16 @@ def callback(request=None):
         raise Exception(request.GET['error'])
 
     uid = _check_state(request)
-    data = _exchange_auth_code(request)
+    code = request.GET['code']
+    data = {
+        'grant_type': 'authorization_code',
+        'code': code,
+        'client_id': settings.REPLYIFY_CLIENT_ID,
+        'redirect_uri': settings.REPLYIFY_REDIRECT_URI
+    }
+    url = settings.REPLYIFY_TOKEN_URL
+    r = requests.post(url=url, data=data)
+    data = r.json()
     creds = _store_credentials(uid, data)
 
     return HttpResponse(creds)
@@ -96,19 +101,6 @@ def _check_state(request=None):
 
     request.session.pop('state')
     return uid
-
-
-def _exchange_auth_code(request=None):
-    code = request.GET['code']
-    data = {
-        'grant_type': 'authorization_code',
-        'code': code,
-        'client_id': settings.REPLYIFY_CLIENT_ID,
-        'redirect_uri': settings.REPLYIFY_REDIRECT_URI
-    }
-    url = settings.REPLYIFY_TOKEN_URL
-    r = requests.post(url=url, data=data)
-    return r.json()
 
 
 def _store_credentials(user, data=None):

@@ -13,7 +13,7 @@ from django.utils import timezone
 
 
 class Credentials(models.Model):
-    user = models.OneToOneField(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), on_delete=models.CASCADE)
+    user = models.OneToOneField(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), on_delete=models.CASCADE, related_name='replyify_credentials')
     access_token = models.CharField(max_length=50)
     refresh_token = models.CharField(max_length=50)
     expires = models.DateTimeField(default=timezone.now)
