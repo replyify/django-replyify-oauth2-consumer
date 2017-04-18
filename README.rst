@@ -35,7 +35,7 @@ From your previously configured app, found at https://app.replyify.com/oauth2/ap
 ::
 	REPLYIFY_CLIENT_ID = '{ update me }'
 	REPLYIFY_CLIENT_SECRET = '{ update me }'
-	REPLYIFY_USER_ID_FIELD = 'id'  # or other unique field like `id`
+	REPLYIFY_USER_ID_FIELD = 'id'  # or other primary key user field like `guid`
 
 	INSTALLED_APPS = [
 		...

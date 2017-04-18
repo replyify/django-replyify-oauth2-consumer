@@ -17,7 +17,7 @@ def replyify_auth_required(func):
             try:
                 if Credentials.objects.get(user=request.user).is_valid():
                     return func(request, *args, **kwargs)
-            except Credentials.DoesNotExsit:
+            except Credentials.DoesNotExist:
                 return redirect(reverse('replyfy:authorize') + '?next=' + request.GET.get('next', request.path))
             return redirect(reverse('replyfy:refresh') + '?next=' + request.GET.get('next', request.path))
         return wraps(func)(inner_decorator)
