@@ -63,6 +63,13 @@ In templates
 
 Note: you can pass `next` query parameter to the authorize view to direct the user to correct page after OAuth flow has completed successfully.  Default will send user to '/'
 
+In views as a decorator: this will kick off the Authorization flow or Refresh request (if token is expired) and will send the user back to the original requested url on completion
+::
+	from replyify_oauth2.decorators import replyify_auth_required
+
+	@replyify_auth_required
+	def my_view_that_needs_replyify(request):
+		...
 
 Using the Replyify API
 ----------------------

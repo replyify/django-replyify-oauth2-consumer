@@ -3,9 +3,8 @@
 
 #
 # This file is subject to the terms and conditions defined in
-# file 'LICENSE.md', which is part of this source code package.
+# file 'LICENSE', which is part of this source code package.
 #
-
 from __future__ import unicode_literals
 from django.conf import settings
 from django.db import models
@@ -22,10 +21,13 @@ class Credentials(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    def expired(self):
+    def is_expired(self):
         if timezone.now() > self.expires:
             return True
         return False
+
+    def is_valid(self):
+        return not self.is_expired()
 
     def __unicode__(self):
         return '<Replyify Creds: {}>'.format(self.access_token)
