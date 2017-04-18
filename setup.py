@@ -20,7 +20,7 @@ with open(os.path.join(os.path.dirname(__file__), 'VERSION'), 'r') as v:
     VERSION = v.read()
 
 
-with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
+with open(os.path.join(os.path.dirname(__file__), 'README.rst'), 'r') as readme:
     README = readme.read()
 
 
@@ -42,8 +42,8 @@ setup(
         'replyify_oauth2.migrations',
     ],
     install_requires=[
-        'Django>=1.6'
-        'requests>=0.8.8'
+        'Django>=1.6',
+        'requests>=0.8.8',
     ],
     scripts=[],
     include_package_data=True,

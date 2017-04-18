@@ -8,7 +8,7 @@
 
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from django.conf import settings
+from . import settings
 from .models import Credentials
 
 

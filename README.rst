@@ -31,19 +31,37 @@ Register Your Application with Replyify
 Configure the django-replyify-oauth2 module
 -------------------------------------------
 
-From your previously configured app, found at https://app.replyify.com/oauth2/applications add the following to your Django settings:
-- REPLYIFY_CLIENT_ID
-- REPLYIFY_CLIENT_SECRET
-- REPLYIFY_REDIRECT_URI
-- REPLYIFY_USER_ID_FIELD
+From your previously configured app, found at https://app.replyify.com/oauth2/applications add the following to your Django `settings.py`:
+::
+	REPLYIFY_CLIENT_ID = '{ update me }'
+	REPLYIFY_CLIENT_SECRET = '{ update me }'
+	REPLYIFY_USER_ID_FIELD = 'id'  # or other unique field like `id`
+
+	INSTALLED_APPS = [
+		...
+		'replyify_oauth2',
+		...
+	]
 
 And add the following to your `urls.py`
 ::
+	from django.conf.urls import patterns, include, url
 	urlpatterns = patterns(
 		...
 		url(r'^replyify/', include('replyify_oauth2.urls', namespace='replyify')),
 		...
 	)
+
+Run migrate
+::
+
+	$ python manage.py migrate
+
+In templates
+::
+	<a href="{% url 'replyify:authorize' %}?next={% url 'home'|urlencode %}">Connect to Replyify</a>
+
+Note: you can pass `next` query parameter to the authorize view to direct the user to correct page after OAuth flow has completed successfully.  Default will send user to '/'
 
 
 Using the Replyify API
