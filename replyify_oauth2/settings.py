@@ -15,3 +15,4 @@ REPLYIFY_AUTH_URL = getattr(settings, 'REPLYIFY_AUTH_URL', 'https://app.replyify
 REPLYIFY_TOKEN_URL = getattr(settings, 'REPLYIFY_TOKEN_URL', 'https://app.replyify.com/oauth2/token')
 
 REPLYIFY_USER_ID_FIELD = getattr(settings, 'REPLYIFY_USER_ID_FIELD', 'id')
+REPLYIFY_DENIED_REDIRECT = getattr(settings, 'REPLYIFY_DENIED_REDIRECT', '/')

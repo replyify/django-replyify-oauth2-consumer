@@ -28,6 +28,8 @@ def index(request=None):
 def authorize(request=None):
     # uid = getattr(request.user, settings.REPLYIFY_USER_ID_FIELD)
     next_url = request.GET.get('next', request.GET.get('state', '/'))
+    if request.GET.get('denied_redirect'):
+        request.session['replyify-denied-redirect'] = request.GET['denied_redirect']
     logger.info('** REPLYIFY: /authorize - Next URL: {}'.format(next_url))
     # state = get_random_string(20, 'abcdefghijklmnopqrstuvwxyz0123456789')
     request.session['state'] = next_url
@@ -44,8 +46,12 @@ def authorize(request=None):
 
 @login_required
 def callback(request=None):
-    if 'error' in request.GET:
-        raise Exception(request.GET['error'])
+    if request.GET.get('error'):
+        logger.info('** REPLYIFY: /callback - Access Denied!')
+        messages.error(request, request.GET.get('error').replace('_', ' ').title())
+        next_url = request.session.get('replyify-denied-redirect', settings.REPLYIFY_DENIED_REDIRECT)
+        logger.info('** REPLYIFY: /callback - Denied Redirect: {}'.format(next_url))
+        raise redirect(next_url)
     logger.info('** REPLYIFY: /callback')
     data = {
         'grant_type': 'authorization_code',
