@@ -35,7 +35,9 @@ From your previously configured app, found at https://app.replyify.com/oauth2/ap
 ::
 	REPLYIFY_CLIENT_ID = '{ update me }'
 	REPLYIFY_CLIENT_SECRET = '{ update me }'
+	REPLYIFY_REDIRECT_URI = '{ update me, must match value set from previous step'
 	REPLYIFY_USER_ID_FIELD = 'id'  # or other primary key user field like `guid`
+	REPLYIFY_DENIED_REDIRECT = '/path/when/user/denies/access'  # defaults to home page
 
 	INSTALLED_APPS = [
 		...

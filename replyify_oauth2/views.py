@@ -9,10 +9,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.contrib import messages
-from django.utils import timezone
 from .models import Credentials
+from .utils import store_credentials, refresh_access_token
 from . import settings
-from datetime import timedelta
 import requests
 import urllib
 import logging
@@ -51,7 +50,7 @@ def callback(request=None):
         messages.error(request, request.GET.get('error').replace('_', ' ').title())
         next_url = request.session.get('replyify-denied-redirect', settings.REPLYIFY_DENIED_REDIRECT)
         logger.info('** REPLYIFY: /callback - Denied Redirect: {}'.format(next_url))
-        raise redirect(next_url)
+        return redirect(next_url)
     logger.info('** REPLYIFY: /callback')
     data = {
         'grant_type': 'authorization_code',
@@ -70,7 +69,7 @@ def callback(request=None):
         logger.error('** REPLYIFY ERROR: {}'.format(response_data['error']))
         messages.error(request, 'REPLYIFY ERROR: {}'.format(response_data['error']))
     else:
-        _store_credentials(request.user, response_data)
+        store_credentials(request.user, response_data)
     return redirect(request.GET.get('state', '/'))
 
 
@@ -81,33 +80,7 @@ def refresh(request=None):
     logger.info('** REPLYIFY: /refresh')
     try:
         next_url = request.GET.get('next', request.GET.get('state', '/'))
-        creds = Credentials.objects.get(user=request.user)
-
-        data = {
-            'grant_type': 'refresh_token',
-            'client_id': settings.REPLYIFY_CLIENT_ID,
-            'client_secret': settings.REPLYIFY_CLIENT_SECRET,
-            'refresh_token': creds.refresh_token
-        }
-
-        url = settings.REPLYIFY_TOKEN_URL
-        logger.info('** REPLYIFY: Refresh Token URL - {}'.format(url))
-        logger.info('** REPLYIFY: Token data - {}'.format(data))
-        response = requests.post(url=url, data=data)
-        _store_credentials(request.user, response.json())
+        request.user = refresh_access_token(request.user)
         return redirect(next_url)
-
     except Credentials.DoesNotExist:
         authorize(request)
-
-
-def _store_credentials(user, replyify_json=None):
-    assert user is not None
-    creds, _ = Credentials.objects.get_or_create(user=user)
-    creds.access_token = replyify_json['access_token']
-    creds.refresh_token = replyify_json['refresh_token']
-    creds.expires = timezone.now() + timedelta(seconds=replyify_json['expires_in'])
-    creds.scope = replyify_json['scope']
-    creds.token_type = replyify_json['token_type']
-    creds.save()
-    return creds

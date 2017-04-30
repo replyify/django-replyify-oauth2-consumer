@@ -9,4 +9,4 @@ from django import VERSION as DJANGO_VERSION
 if DJANGO_VERSION >= (1, 7):
     default_app_config = 'replyify_oauth2.apps.ReplyifyOAuth2Config'
 
-__version__ = '0.0.3'
+__version__ = '0.0.4'
