@@ -5,6 +5,7 @@
 # This file is subject to the terms and conditions defined in
 # file 'LICENSE', which is part of this source code package.
 #
+from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -13,7 +14,9 @@ from .models import Credentials
 from .utils import store_credentials, refresh_access_token
 from . import settings
 import requests
-import urllib
+import urllib.request
+import urllib.parse
+import urllib.error
 import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -38,7 +41,7 @@ def authorize(request=None):
         'response_type': 'code',
         'state': next_url,
     }
-    url = '{0}?{1}'.format(settings.REPLYIFY_AUTH_URL, urllib.urlencode(params))
+    url = '{0}?{1}'.format(settings.REPLYIFY_AUTH_URL, urllib.parse.urlencode(params))
     logger.info('** REPLYIFY: /authorize - Redirecting to: {}'.format(url))
     return redirect(url)
 

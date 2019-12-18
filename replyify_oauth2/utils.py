@@ -5,6 +5,7 @@
 # This file is subject to the terms and conditions defined in
 # file 'LICENSE', which is part of this source code package.
 #
+from __future__ import unicode_literals
 from django.utils import timezone
 from . import settings
 from .models import Credentials
@@ -37,6 +38,7 @@ def refresh_access_token(user):
     logger.info('** REPLYIFY: Refresh Token URL - {}'.format(url))
     logger.info('** REPLYIFY: Token data - {}'.format(data))
     response = requests.post(url=url, data=data)
+    logger.info('** REPLYIFY: Response data - {}'.format(response.json()))
     user.replyify_credentials = store_credentials(user, response.json())
     return user
 
