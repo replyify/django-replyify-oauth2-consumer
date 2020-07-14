@@ -5,8 +5,12 @@
 # This file is subject to the terms and conditions defined in
 # file 'LICENSE', which is part of this source code package.
 #
+from __future__ import unicode_literals
 from functools import wraps
-from django.core.urlresolvers import reverse
+try:
+    from django.core.urlresolvers import reverse
+except ImportError:
+    from django.urls import reverse
 from django.shortcuts import redirect
 from .models import Credentials
 from .utils import refresh_access_token

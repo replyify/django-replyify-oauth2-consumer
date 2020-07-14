@@ -29,9 +29,10 @@ setup(
     version=VERSION,
     description='Replyify OAuth2 consumer for Django',
     long_description=README,
+    long_description_content_type='text/x-rst',
     author='Replyify',
     author_email='team@replyify.com',
-    url='http://replyify.com',
+    url='https://replyify.com',
     keywords=[
         'replyify',
         'oauth2',
@@ -42,8 +43,8 @@ setup(
         'replyify_oauth2.migrations',
     ],
     install_requires=[
-        'Django>=1.6',
-        'requests>=0.8.8',
+        'Django>=2.0',
+        'requests>=0.10.1',
     ],
     scripts=[],
     include_package_data=True,
@@ -61,4 +62,5 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
+    python_requires='~=3.0',
 )

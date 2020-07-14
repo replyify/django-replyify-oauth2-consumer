@@ -5,6 +5,7 @@
 # This file is subject to the terms and conditions defined in
 # file 'LICENSE', which is part of this source code package.
 #
+from __future__ import unicode_literals
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from . import settings

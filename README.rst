@@ -7,13 +7,11 @@ Installation
 ------------
 
 You can install this package by using the pip tool and installing:
-
 ::
 
     $ pip install django-replyify-oauth2
 
 Or:
-
 ::
 
     $ easy_install django-replyify-oauth2
@@ -33,45 +31,49 @@ Configure the django-replyify-oauth2 module
 
 From your previously configured app, found at https://app.replyify.com/oauth2/applications add the following to your Django `settings.py`:
 ::
-	REPLYIFY_CLIENT_ID = '{ update me }'
-	REPLYIFY_CLIENT_SECRET = '{ update me }'
-	REPLYIFY_REDIRECT_URI = '{ update me, must match value set from previous step'
-	REPLYIFY_USER_ID_FIELD = 'id'  # or other primary key user field like `guid`
-	REPLYIFY_DENIED_REDIRECT = '/path/when/user/denies/access'  # defaults to home page
 
-	INSTALLED_APPS = [
-		...
-		'replyify_oauth2',
-		...
-	]
+    REPLYIFY_CLIENT_ID = '{ update me }'
+    REPLYIFY_CLIENT_SECRET = '{ update me }'
+    REPLYIFY_REDIRECT_URI = '{ update me, must match value set from previous step'
+    REPLYIFY_USER_ID_FIELD = 'id'  # or other primary key user field like `guid`
+    REPLYIFY_DENIED_REDIRECT = '/path/when/user/denies/access'  # defaults to home page
+
+    INSTALLED_APPS = [
+        ...
+        'replyify_oauth2',
+        ...
+    ]
 
 And add the following to your `urls.py`
 ::
-	from django.conf.urls import patterns, include, url
-	urlpatterns = patterns(
-		...
-		url(r'^replyify/', include('replyify_oauth2.urls', namespace='replyify')),
-		...
-	)
+
+    from django.conf.urls import patterns, include, url
+    urlpatterns = patterns(
+        ...
+        url(r'^replyify/', include('replyify_oauth2.urls', namespace='replyify')),
+        ...
+    )
 
 Run migrate
 ::
 
-	$ python manage.py migrate
+    **$ python manage.py migrate**
 
 In templates
 ::
-	<a href="{% url 'replyify:authorize' %}?next={% url 'home'|urlencode %}">Connect to Replyify</a>
+
+    <a href="{% url 'replyify:authorize' %}?next={% url 'home'|urlencode %}">Connect to Replyify</a>
 
 Note: you can pass `next` query parameter to the authorize view to direct the user to correct page after OAuth flow has completed successfully.  Default will send user to '/'
 
 In views as a decorator: this will kick off the Authorization flow or Refresh request (if token is expired) and will send the user back to the original requested url on completion
 ::
-	from replyify_oauth2.decorators import replyify_auth_required
 
-	@replyify_auth_required
-	def my_view_that_needs_replyify(request):
-		...
+    from replyify_oauth2.decorators import replyify_auth_required
+
+    @replyify_auth_required
+    def my_view_that_needs_replyify(request):
+        ...
 
 Using the Replyify API
 ----------------------
