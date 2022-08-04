@@ -47,12 +47,12 @@ From your previously configured app, found at https://app.replyify.com/oauth2/ap
 And add the following to your `urls.py`
 ::
 
-    from django.conf.urls import patterns, include, url
-    urlpatterns = patterns(
+    from django.conf.urls import include, re_path
+    urlpatterns = [
         ...
-        url(r'^replyify/', include('replyify_oauth2.urls', namespace='replyify')),
+        re_path(r'^replyify/', include(('replyify_oauth2.urls', 'replyify_oauth2'), namespace='replyify')),
         ...
-    )
+    ]
 
 Run migrate
 ::
@@ -81,7 +81,7 @@ Using the Replyify API
 Documentation for the python bindings can be found here:
 
 -  https://app.replyify.com/api/docs
--  http://replyify.com/api/docs/python
+-  https://replyify.com/api/docs
 
 In the standard documentation (the first link), most of the reference
 pages will have examples in Replyify's official bindings (including

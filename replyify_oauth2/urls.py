@@ -6,12 +6,12 @@
 # file 'LICENSE', which is part of this source code package.
 #
 from __future__ import unicode_literals
-from django.conf.urls import url
+from django.conf.urls import re_path
 from . import views
 
 urlpatterns = [
-    url(r'^authorize/', views.authorize, name='authorize'),
-    url(r'^callback/', views.callback, name='callback'),
-    url(r'^refresh/', views.refresh, name='refresh'),
-    url(r'^$', views.index, name='index'),
+    re_path(r'^authorize/', views.authorize, name='authorize'),
+    re_path(r'^callback/', views.callback, name='callback'),
+    re_path(r'^refresh/', views.refresh, name='refresh'),
+    re_path(r'^$', views.index, name='index'),
 ]

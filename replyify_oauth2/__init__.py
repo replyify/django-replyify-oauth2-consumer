@@ -8,4 +8,4 @@
 from __future__ import unicode_literals
 default_app_config = 'replyify_oauth2.apps.ReplyifyOAuth2Config'
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
