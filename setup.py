@@ -20,7 +20,7 @@ with open(os.path.join(os.path.dirname(__file__), 'VERSION'), 'r') as v:
     VERSION = v.read()
 
 
-with open(os.path.join(os.path.dirname(__file__), 'README.rst'), 'r') as readme:
+with open(os.path.join(os.path.dirname(__file__), 'README.md'), 'r') as readme:
     README = readme.read()
 
 
@@ -43,7 +43,7 @@ setup(
         'replyify_oauth2.migrations',
     ],
     install_requires=[
-        'Django>=2.0',
+        'Django>=4.0',
         'requests>=0.10.1',
     ],
     scripts=[],
@@ -52,7 +52,7 @@ setup(
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
-        'Framework :: Django :: 2.0',
+        'Framework :: Django :: 4.0',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
@@ -62,5 +62,5 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
-    python_requires='~=3.0',
+    python_requires='~=3.10',
 )

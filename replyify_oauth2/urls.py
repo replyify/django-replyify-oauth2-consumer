@@ -6,7 +6,7 @@
 # file 'LICENSE', which is part of this source code package.
 #
 from __future__ import unicode_literals
-from django.conf.urls import re_path
+from django.urls import re_path
 from . import views
 
 urlpatterns = [
